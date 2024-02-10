@@ -1,11 +1,7 @@
-import NxWelcome from './nx-welcome';
+import { encode } from '@recursion-viewer/common';
 
 export function App() {
-    return (
-        <div>
-            <NxWelcome title="website" />
-        </div>
-    );
+    return <div>Hello {encode({ test: 1 })}</div>;
 }
 
 export default App;

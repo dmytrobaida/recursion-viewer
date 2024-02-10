@@ -1,0 +1,21 @@
+{
+    "name": "extension",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/extension/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/esbuild:esbuild",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/apps/extension",
+                "main": "apps/extension/src/index.ts",
+                "tsConfig": "apps/extension/tsconfig.lib.json",
+                "assets": ["apps/extension/*.md"],
+                "generatePackageJson": true,
+                "format": ["cjs"]
+            }
+        }
+    },
+    "tags": []
+}

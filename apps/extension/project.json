@@ -6,14 +6,29 @@
     "targets": {
         "build": {
             "executor": "@nx/esbuild:esbuild",
-            "outputs": ["{options.outputPath}"],
+            "outputs": [
+                "{options.outputPath}"
+            ],
             "options": {
                 "outputPath": "dist/apps/extension",
                 "main": "apps/extension/src/index.ts",
                 "tsConfig": "apps/extension/tsconfig.lib.json",
-                "assets": ["apps/extension/*.md"],
+                "assets": [
+                    "apps/extension/*.md"
+                ],
                 "generatePackageJson": true,
-                "format": ["cjs"]
+                "format": [
+                    "cjs"
+                ],
+                "external": [
+                    "vscode"
+                ],
+                "sourcemap": true,
+                "esbuildOptions": {
+                    "loader": {
+                        ".html": "text"
+                    }
+                }
             }
         }
     },

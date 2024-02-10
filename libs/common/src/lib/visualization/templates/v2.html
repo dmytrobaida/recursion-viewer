@@ -20,59 +20,59 @@
 <script>
     function getData() {
         const urlParams = new URLSearchParams(location.search);
-        const encoded = decodeURIComponent(urlParams.get("data"));
+        const encoded = decodeURIComponent(urlParams.get('data'));
         const decoded = atob(encoded);
         return JSON.parse(decoded);
     }
 
-    window.addEventListener("DOMContentLoaded", function () {
+    window.addEventListener('DOMContentLoaded', function () {
         const cy = cytoscape({
-            container: document.getElementById("cy"),
+            container: document.getElementById('cy'),
             boxSelectionEnabled: false,
             autounselectify: true,
             layout: {
-                name: "dagre",
+                name: 'dagre',
                 nodeDimensionsIncludeLabels: true,
             },
             style: [
                 {
-                    selector: "node",
+                    selector: 'node',
                     style: {
-                        "background-color": "#11479e",
+                        'background-color': '#11479e',
                     },
                 },
 
                 {
-                    selector: "edge",
+                    selector: 'edge',
                     style: {
                         width: 4,
-                        "source-arrow-shape": "triangle",
-                        "source-arrow-color": "#9dbaea",
-                        "line-color": "#9dbaea",
-                        "curve-style": "bezier",
+                        'source-arrow-shape': 'triangle',
+                        'source-arrow-color': '#9dbaea',
+                        'line-color': '#9dbaea',
+                        'curve-style': 'bezier',
                     },
                 },
                 {
-                    selector: "node[label]",
+                    selector: 'node[label]',
                     style: {
-                        label: "data(label)",
-                        "text-valign": "center",
-                        "text-halign": "center",
-                        "text-background-opacity": 0.5,
-                        "text-background-color": "#fff",
-                        "text-background-shape": "roundrectangle",
-                        "text-background-padding": 3,
+                        label: 'data(label)',
+                        'text-valign': 'center',
+                        'text-halign': 'center',
+                        'text-background-opacity': 0.5,
+                        'text-background-color': '#fff',
+                        'text-background-shape': 'roundrectangle',
+                        'text-background-padding': 3,
                     },
                 },
                 {
-                    selector: "edge[label]",
+                    selector: 'edge[label]',
                     style: {
-                        label: "data(label)",
+                        label: 'data(label)',
                         width: 3,
-                        "text-background-opacity": 0.5,
-                        "text-background-color": "#fff",
-                        "text-background-shape": "roundrectangle",
-                        "text-background-padding": 2,
+                        'text-background-opacity': 0.5,
+                        'text-background-color': '#fff',
+                        'text-background-shape': 'roundrectangle',
+                        'text-background-padding': 2,
                     },
                 },
             ],

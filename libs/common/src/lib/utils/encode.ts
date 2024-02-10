@@ -1,3 +1,5 @@
+import { isBrowser } from './platform';
+
 export function encode(obj: object) {
     const str = JSON.stringify(obj);
     const base64 = isBrowser()
@@ -13,8 +15,4 @@ export function decode(encoded: string): object {
         ? atob(decodedUri)
         : Buffer.from(decodedUri, 'base64').toString('utf-8');
     return JSON.parse(decoded);
-}
-
-export function isBrowser() {
-    return window != null;
 }

@@ -4,6 +4,7 @@ import * as vm from 'node:vm';
 
 import { BuilderFunction } from '../types/builder-result';
 import { GlobalRootId, MaxHashValue, MinHashValue } from '../constants/config';
+import { isBrowser } from '../utils/platform';
 
 function wrapFunction(src: string, functionName: string, params: object[]) {
     return `
@@ -49,7 +50,7 @@ function wrapFunction(src: string, functionName: string, params: object[]) {
     `;
 }
 
-export default function build(src: string): BuilderFunction {
+export function build(src: string): BuilderFunction {
     const srcFile = ts.createSourceFile('src.ts', src, ts.ScriptTarget.Latest);
     const functionNames = srcFile
         .getChildren()
@@ -67,12 +68,20 @@ export default function build(src: string): BuilderFunction {
             {}
         ).outputText;
 
-        const script = new vm.Script(scriptSrc);
-        const result = script.runInContext(vm.createContext({}));
+        const result = executeScript(scriptSrc);
 
         return {
             funcName: functionName,
             calls: JSON.parse(result),
         };
     };
+}
+
+function executeScript(scriptSrc: string) {
+    if (isBrowser()) {
+        return eval(scriptSrc);
+    } else {
+        const script = new vm.Script(scriptSrc);
+        return script.runInContext(vm.createContext({}));
+    }
 }

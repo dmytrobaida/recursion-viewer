@@ -2,7 +2,9 @@
     "name": "@recursion-viewer/source",
     "version": "0.0.0",
     "license": "MIT",
-    "scripts": {},
+    "scripts": {
+        "watch:extension": "yarn nx run extension:build --watch"
+    },
     "private": true,
     "dependencies": {},
     "devDependencies": {

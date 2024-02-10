@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
         () => {
             const encoded = encode({ hello: 1 });
 
-            vscode.window.showInformationMessage('Hello From NX!' + encoded);
+            vscode.window.showInformationMessage('Hello From NX V2!' + encoded);
         }
     );
 

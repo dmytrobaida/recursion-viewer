@@ -4,7 +4,9 @@ import {
     build,
     transformBuilderResultToCytoElements,
 } from '@recursion-viewer/common';
-import { useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import Editor from '@monaco-editor/react';
+import './app.css';
 
 const def = `
 function fn(n) {
@@ -18,27 +20,44 @@ function fn(n) {
 export function App() {
     const [functionText, setFunctionText] = useState(def);
     const [encodedData, setEncodedData] = useState('');
+    const [isEnabled, setIsEnabled] = useState(false);
 
-    useEffect(() => {
-        const result = build(functionText)(5);
+    const iframeUrl = useMemo(() => {
+        return visualize('v2') + '?data=' + encodedData;
+    }, [encodedData]);
+
+    const clickHandler = useCallback(() => {
+        const result = build(functionText)(6);
         const transformed = transformBuilderResultToCytoElements(result);
         setEncodedData(encode(transformed));
     }, [functionText]);
 
     return (
-        <>
-            <textarea
-                id="text"
-                cols={30}
-                rows={20}
-                value={functionText}
-                onChange={(e) => setFunctionText(e.target.value)}
-            ></textarea>
-            <iframe
-                title="frame"
-                src={visualize('v2') + '&data=' + encodedData}
-            ></iframe>
-        </>
+        <div className="wrapper">
+            <div className="vert">
+                <button disabled={!isEnabled} onClick={clickHandler}>
+                    Visualize
+                </button>
+            </div>
+            <div className="horiz">
+                <Editor
+                    width="100%"
+                    language="typescript"
+                    defaultValue={functionText}
+                    onValidate={(markers) => {
+                        const isValid = markers.every((m) => m.severity === 1);
+                        setIsEnabled(isValid);
+                    }}
+                    onChange={(v) => setFunctionText(v ?? '')}
+                />
+                <iframe
+                    id="ifra"
+                    title="frame"
+                    className="ifra"
+                    src={iframeUrl}
+                ></iframe>
+            </div>
+        </div>
     );
 }
 

@@ -1,0 +1,21 @@
+.horiz {
+    display: flex;
+    height: 100%;
+}
+
+.horiz > div {
+    flex-grow: 1;
+}
+
+.wrapper {
+    height: 100vh;
+}
+
+.ifra {
+    width: 100%;
+    height: 100%;
+}
+
+.vert {
+    height: 50px;
+}

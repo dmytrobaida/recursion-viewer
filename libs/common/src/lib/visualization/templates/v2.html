@@ -19,10 +19,8 @@
 
 <script>
     function getData() {
-        const urlParams = new URLSearchParams(location.search);
-        const encoded = decodeURIComponent(urlParams.get('data'));
-        const decoded = atob(encoded);
-        return JSON.parse(decoded);
+        const data = JSON.parse(`{{{graphData}}}`);
+        return data;
     }
 
     window.addEventListener('DOMContentLoaded', function () {

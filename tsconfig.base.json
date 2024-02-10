@@ -10,14 +10,25 @@
         "importHelpers": true,
         "target": "es2015",
         "module": "esnext",
-        "lib": ["es2020", "dom"],
+        "lib": [
+            "es2020",
+            "dom"
+        ],
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
+        "allowSyntheticDefaultImports": true,
         "paths": {
-            "@recursion-viewer/common": ["libs/common/src/index.ts"],
-            "@recursion-viewer/extension": ["apps/extension/src/index.ts"]
+            "@recursion-viewer/common": [
+                "libs/common/src/index.ts"
+            ],
+            "@recursion-viewer/extension": [
+                "apps/extension/src/index.ts"
+            ]
         }
     },
-    "exclude": ["node_modules", "tmp"]
+    "exclude": [
+        "node_modules",
+        "tmp"
+    ]
 }

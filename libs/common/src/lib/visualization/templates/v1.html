@@ -5,7 +5,7 @@
 
 <style>
     text {
-        font-family: "Comic Sans MS", "Papyrus", sans-serif;
+        font-family: 'Comic Sans MS', 'Papyrus', sans-serif;
         font-size: 32px;
         font-weight: bold;
         fill: red;
@@ -25,20 +25,20 @@
 <script>
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const data = JSON.parse(`{{{dataNode}}}`);
+    const data = JSON.parse(`{{{graphData}}}`);
 
     const svg = d3
-        .select("#graph")
-        .append("svg")
+        .select('#graph')
+        .append('svg')
         .call(
-            d3.zoom().on("zoom", function () {
-                svg.attr("transform", d3.event.transform);
+            d3.zoom().on('zoom', function () {
+                svg.attr('transform', d3.event.transform);
             })
         )
-        .attr("width", width)
-        .attr("height", height)
-        .attr("transform", "translate(40,0)")
-        .append("g");
+        .attr('width', width)
+        .attr('height', height)
+        .attr('transform', 'translate(40,0)')
+        .append('g');
 
     const cluster = d3.cluster().size([height, width - 100]);
     const root = d3.hierarchy(data, function (d) {
@@ -47,47 +47,47 @@
 
     cluster(root);
 
-    svg.append("g")
-        .selectAll("path")
+    svg.append('g')
+        .selectAll('path')
         .data(root.descendants().slice(1))
         .enter()
-        .append("path")
-        .attr("d", function (d) {
+        .append('path')
+        .attr('d', function (d) {
             return (
-                "M" +
+                'M' +
                 d.y +
-                "," +
+                ',' +
                 d.x +
-                "C" +
+                'C' +
                 (d.parent.y + 50) +
-                "," +
+                ',' +
                 d.x +
-                " " +
+                ' ' +
                 (d.parent.y + 150) +
-                "," +
+                ',' +
                 d.parent.x +
-                " " +
+                ' ' +
                 d.parent.y +
-                "," +
+                ',' +
                 d.parent.x
             );
         })
-        .attr("stroke", "#ccc");
+        .attr('stroke', '#ccc');
 
-    svg.append("g")
-        .selectAll("g")
+    svg.append('g')
+        .selectAll('g')
         .data(root.descendants())
         .enter()
-        .append("g")
-        .attr("transform", function (d) {
-            return "translate(" + d.y + "," + d.x + ")";
+        .append('g')
+        .attr('transform', function (d) {
+            return 'translate(' + d.y + ',' + d.x + ')';
         })
-        .append("circle")
-        .attr("r", 15)
-        .attr("stroke", "black")
+        .append('circle')
+        .attr('r', 15)
+        .attr('stroke', 'black')
         .select(function () {
             return this.parentNode;
         })
-        .append("text")
+        .append('text')
         .text((d) => `${d.data.name} = ${d.data.returns}`);
 </script>

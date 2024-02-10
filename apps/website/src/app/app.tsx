@@ -2,34 +2,52 @@ import {
     encode,
     visualize,
     build,
-    transformBuilderResultToCytoElements,
+    transformCallResultToCytoElements,
 } from '@recursion-viewer/common';
 import { useCallback, useMemo, useState } from 'react';
 import Editor from '@monaco-editor/react';
+
 import './app.css';
 
 const def = `
 function fn(n) {
     if (n == 0 || n == 1)
       return n
-    
+
     return fn(n-1) + fn(n-2)
   }
 `;
 
+// const def = `
+// const fn = (n) => {
+//     if (n == 0 || n == 1)
+//       return n
+
+//     return fn(n-1) + fn(n-2)
+//   }
+// `;
+
 export function App() {
     const [functionText, setFunctionText] = useState(def);
-    const [encodedData, setEncodedData] = useState('');
     const [isEnabled, setIsEnabled] = useState(false);
-
-    const iframeUrl = useMemo(() => {
-        return visualize('v2') + '?data=' + encodedData;
-    }, [encodedData]);
+    const [iframeDoc, setIframeDoc] = useState<string>();
 
     const clickHandler = useCallback(() => {
-        const result = build(functionText)(6);
-        const transformed = transformBuilderResultToCytoElements(result);
-        setEncodedData(encode(transformed));
+        try {
+            const functions = build(functionText);
+            const cur = functions[0];
+
+            const result = cur.func(10);
+            const transformed = transformCallResultToCytoElements(
+                result,
+                cur.funcName
+            );
+
+            setIframeDoc(visualize('v2', transformed));
+        } catch (err) {
+            // add proper error handling
+            alert(err);
+        }
     }, [functionText]);
 
     return (
@@ -54,7 +72,7 @@ export function App() {
                     id="ifra"
                     title="frame"
                     className="ifra"
-                    src={iframeUrl}
+                    srcDoc={iframeDoc}
                 ></iframe>
             </div>
         </div>

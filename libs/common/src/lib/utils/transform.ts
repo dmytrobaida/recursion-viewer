@@ -1,7 +1,7 @@
-import { GlobalRootId } from "../constants/config";
-import { BuilderResult } from "../types/builder-result";
-import { CytoEdge, CytoElements, CytoNode } from "../types/cyto-data";
-import { DataNode } from "../types/d3-data";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { GlobalRootId } from '../constants/config';
+import { CallResult } from '../types/builder-result';
+import { CytoEdge, CytoElements, CytoNode } from '../types/cyto-data';
 
 type CallParams = {
     [hash: string]: {
@@ -10,35 +10,10 @@ type CallParams = {
     };
 };
 
-export function transformBuilderResultToD3Data(
-    builderResult: BuilderResult
-): DataNode {
-    const callParams = getCallParams(builderResult);
-
-    function dfs(key: number | string) {
-        const cur = callParams[key];
-        const node = new DataNode(
-            `${builderResult.funcName}(${cur.inputParams.join(",")})`,
-            `${cur.callResult}`
-        );
-
-        for (const callItem of builderResult.calls[key] ?? []) {
-            const child = dfs(callItem.targetHash);
-            node.children.push(child);
-        }
-
-        return node;
-    }
-
-    return dfs(GlobalRootId).children[0];
-}
-
-export function getCallParams(builderResult: BuilderResult) {
+export function getCallParams(callResult: CallResult) {
     const callParams: CallParams = {};
-    const allCalls = Object.values(builderResult.calls).flatMap(
-        (items) => items
-    );
-    const root = builderResult.calls[GlobalRootId];
+    const allCalls = Object.values(callResult).flatMap((items) => items);
+    const root = callResult[GlobalRootId];
 
     callParams[GlobalRootId] = {
         inputParams: root[0].inputParams,
@@ -55,27 +30,28 @@ export function getCallParams(builderResult: BuilderResult) {
     return callParams;
 }
 
-export function transformBuilderResultToCytoElements(
-    builderResult: BuilderResult
+export function transformCallResultToCytoElements(
+    callResult: CallResult,
+    funcName: string
 ): CytoElements {
     const nodes: CytoNode[] = [];
     const edges: CytoEdge[] = [];
-    const callParams = getCallParams(builderResult);
+    const callParams = getCallParams(callResult);
 
     function dfs(key: number | string) {
         const cur = callParams[key];
         const node: CytoNode = {
             data: {
                 id: key.toString(),
-                label: `${builderResult.funcName}(${cur.inputParams
+                label: `${funcName}(${cur.inputParams
                     .map((p) => JSON.stringify(p))
-                    .join(",")})`,
+                    .join(',')})`,
             },
         };
 
         nodes.push(node);
 
-        for (const callItem of builderResult.calls[key] ?? []) {
+        for (const callItem of callResult[key] ?? []) {
             const edge: CytoEdge = {
                 data: {
                     source: node.data.id,

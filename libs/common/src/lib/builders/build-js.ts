@@ -2,8 +2,13 @@
 import * as ts from 'typescript';
 import * as vm from 'node:vm';
 
-import { BuilderFunction } from '../types/builder-result';
-import { GlobalRootId, MaxHashValue, MinHashValue } from '../constants/config';
+import { BuilderResult } from '../types/builder-result';
+import {
+    GlobalRootId,
+    MaxHashValue,
+    MinHashValue,
+    RecursionLimit,
+} from '../constants/config';
 import { isBrowser } from '../utils/platform';
 
 function wrapFunction(src: string, functionName: string, params: object[]) {
@@ -17,6 +22,11 @@ function wrapFunction(src: string, functionName: string, params: object[]) {
                 apply: (target, thisArg, argArray) => {
                     const hash = Math.floor(Math.random() * ${MaxHashValue}) + ${MinHashValue};
                     thisArg.hashes.push(hash);
+
+                    if (thisArg.hashes.length >= ${RecursionLimit}) {
+                        debugger
+                        throw new Error('Reached recursion depth: ${RecursionLimit}!');
+                    }
 
                     const result = target.apply(thisArg, argArray);
                     const currentHash = thisArg.hashes.pop();
@@ -50,31 +60,51 @@ function wrapFunction(src: string, functionName: string, params: object[]) {
     `;
 }
 
-export function build(src: string): BuilderFunction {
-    const srcFile = ts.createSourceFile('src.ts', src, ts.ScriptTarget.Latest);
-    const functionNames = srcFile
-        .getChildren()
-        .map((node) => node.getChildren())
-        .flatMap((nodes) => nodes)
-        .filter((node) => ts.isFunctionDeclaration(node))
-        .map((node: any) => node.name?.text);
+export function build(src: string): BuilderResult[] {
+    const functions = getAllFunctionsInSource(src);
 
-    // TODO: what if there are multiple functions?
-    const functionName = functionNames[0];
+    if (functions.length === 0) {
+        throw new Error('There are no functions!');
+    }
 
-    return function (...params: object[]) {
-        const scriptSrc = ts.transpileModule(
-            wrapFunction(src, functionName, params),
-            {}
-        ).outputText;
+    if (functions.some((f) => f.name == null)) {
+        throw new Error("Some of the functions doesn't have name");
+    }
 
-        const result = executeScript(scriptSrc);
+    return functions.map((func) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const functionName = func.name!.text;
 
         return {
             funcName: functionName,
-            calls: JSON.parse(result),
+            func: function (...params: object[]) {
+                const scriptSrc = ts.transpileModule(
+                    wrapFunction(src, functionName, params),
+                    {}
+                ).outputText;
+
+                const result = executeScript(scriptSrc);
+
+                return JSON.parse(result);
+            },
+            parameters: func.parameters.map((p: any) => ({
+                name: p.name.text,
+            })),
         };
-    };
+    });
+}
+
+function getAllFunctionsInSource(src: string) {
+    const srcFile = ts.createSourceFile('src.ts', src, ts.ScriptTarget.Latest);
+    const allFunctions: ts.FunctionDeclaration[] = [];
+
+    srcFile.forEachChild((node) => {
+        if (ts.isFunctionDeclaration(node)) {
+            allFunctions.push(node);
+        }
+    });
+
+    return allFunctions;
 }
 
 function executeScript(scriptSrc: string) {

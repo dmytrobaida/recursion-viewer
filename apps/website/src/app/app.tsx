@@ -6,6 +6,7 @@ import {
 } from '@recursion-viewer/common';
 import { useCallback, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
+import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 
 import { Presets } from '../constants/presets';
 
@@ -107,7 +108,7 @@ export function App() {
     const clickHandler = useCallback(
         (func: ReturnType<typeof build>[0], params: any[]) => {
             try {
-                const result = func.run(params);
+                const result = func.run(...params);
                 const transformed = transformCallResultToCytoElements(
                     result,
                     func.name
@@ -124,40 +125,45 @@ export function App() {
 
     return (
         <div className="wrapper">
-            <div className="vertical-box">
-                <FunctionList
-                    functions={functions}
-                    isDisabled={!isEnabled}
-                    onVisualize={clickHandler}
-                />
-            </div>
-            <div className="horizontal-box">
-                <div className="editor-wrapper">
-                    <Editor
-                        width="100%"
-                        height="50%"
-                        language="typescript"
-                        defaultValue={functionText}
-                        onValidate={(markers) => {
-                            const isValid = markers.every(
-                                (m) => m.severity === 1
-                            );
-                            setIsEnabled(isValid);
+            <PanelGroup
+                autoSaveId="example"
+                direction="horizontal"
+                className="panel-t"
+            >
+                <Panel>
+                    <div className="vertical-box">
+                        <FunctionList
+                            functions={functions}
+                            isDisabled={!isEnabled}
+                            onVisualize={clickHandler}
+                        />
+                        <Editor
+                            language="typescript"
+                            className="code-editor"
+                            defaultValue={functionText}
+                            onValidate={(markers) => {
+                                const isValid = markers.every(
+                                    (m) => m.severity === 1
+                                );
+                                setIsEnabled(isValid);
 
-                            if (isValid) {
-                                processFunctions();
-                            }
-                        }}
-                        onChange={(v) => setFunctionText(v ?? '')}
-                    />
-                </div>
-
-                <iframe
-                    title="Recursion visualizer"
-                    className="visualizer"
-                    srcDoc={iframeDoc}
-                ></iframe>
-            </div>
+                                if (isValid) {
+                                    processFunctions();
+                                }
+                            }}
+                            onChange={(v) => setFunctionText(v ?? '')}
+                        />
+                    </div>
+                </Panel>
+                <PanelResizeHandle className="resize-handle" />
+                <Panel>
+                    <iframe
+                        title="Recursion visualizer"
+                        className="visualizer"
+                        srcDoc={iframeDoc}
+                    ></iframe>
+                </Panel>
+            </PanelGroup>
         </div>
     );
 }

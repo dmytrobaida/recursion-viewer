@@ -39,7 +39,6 @@
                         'background-color': '#11479e',
                     },
                 },
-
                 {
                     selector: 'edge',
                     style: {
@@ -75,6 +74,13 @@
                 },
             ],
             elements: getData(),
+        });
+
+        cy.minZoom(0.1);
+        cy.maxZoom(5);
+
+        addEventListener('resize', (event) => {
+            cy.fit();
         });
     });
 </script>

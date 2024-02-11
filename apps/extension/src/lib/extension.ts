@@ -1,18 +1,64 @@
 import * as vscode from 'vscode';
 
-import { encode } from '@recursion-viewer/common';
+import {
+    build,
+    transformCallResultToCytoElements,
+    visualize,
+} from '@recursion-viewer/common';
+
+import { ViewRecursionProvider } from './codelens/view-recursion-provider';
 
 export function activate(context: vscode.ExtensionContext) {
-    const disposable = vscode.commands.registerCommand(
-        'recursion-viewer.helloWorld',
-        () => {
-            const encoded = encode({ hello: 1 });
+    const viewRecursionProvider = new ViewRecursionProvider();
 
-            vscode.window.showInformationMessage('Hello From NX V2!' + encoded);
-        }
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            'recursion-viewer.generate',
+            (funcName, functionText) => {
+                const functions = build(functionText);
+                const func = functions.find((f) => f.name === funcName);
+
+                if (func == null) {
+                    // TODO: add error handling
+                    console.log('Something went wrong!');
+                    return;
+                }
+
+                const result = func.run(5);
+                const transformed = transformCallResultToCytoElements(
+                    result,
+                    func.name
+                );
+                const htmlDoc = visualize('v2', transformed);
+                const panel = vscode.window.createWebviewPanel(
+                    'recursion-viewer',
+                    'Recursion Tree',
+                    vscode.ViewColumn.One,
+                    {
+                        enableScripts: true,
+                    }
+                );
+
+                panel.webview.html = htmlDoc;
+            }
+        )
     );
 
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(
+        vscode.languages.registerCodeLensProvider(
+            [
+                {
+                    language: 'typescript',
+                    scheme: 'file',
+                },
+                {
+                    language: 'javascript',
+                    scheme: 'file',
+                },
+            ],
+            viewRecursionProvider
+        )
+    );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function

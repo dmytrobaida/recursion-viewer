@@ -1,3 +1,3 @@
 export function isBrowser() {
-    return window != null;
+    return typeof window === 'undefined';
 }

@@ -12,12 +12,15 @@
     "categories": [
         "Other"
     ],
-    "activationEvents": [],
+    "activationEvents": [
+        "onLanguage:typescript",
+        "onLanguage:javascript"
+    ],
     "contributes": {
         "commands": [
             {
-                "command": "recursion-viewer.helloWorld",
-                "title": "Hello World"
+                "command": "recursion-viewer.generate",
+                "title": "Generate recursion tree"
             }
         ]
     }

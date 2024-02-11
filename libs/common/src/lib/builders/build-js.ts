@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as ts from 'typescript';
+import ts from 'typescript';
 import * as vm from 'node:vm';
 
 import { BuilderResult } from '../types/builder-result';

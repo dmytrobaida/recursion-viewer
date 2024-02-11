@@ -1,0 +1,84 @@
+name: Deploy Website
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+permissions:
+    actions: read
+    contents: read
+
+inputs:
+    name:
+        description: 'Artifact name'
+        required: false
+        default: 'github-pages'
+    path:
+        description: 'Path of the directory containing the static assets.'
+        required: true
+        default: 'dist/apps/website'
+    retention-days:
+        description: 'Duration after which artifact will expire in days.'
+        required: false
+        default: '1'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            # Cache node_modules
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+                  cache: 'yarn'
+            - run: yarn install --frozen-lockfile
+            - uses: nrwl/nx-set-shas@v4
+
+            - run: yarn nx run website:build
+
+            - name: Archive artifact
+              shell: sh
+              run: |
+                  echo ::group::Archive artifact
+                  tar \
+                    --dereference --hard-dereference \
+                    --directory "$INPUT_PATH" \
+                    -cvf "$RUNNER_TEMP/artifact.tar" \
+                    --exclude=.git \
+                    --exclude=.github \
+                    .
+                  echo ::endgroup::
+              env:
+                  INPUT_PATH: ${{ inputs.path }}
+
+            - name: Upload artifact
+              id: upload-artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: ${{ inputs.name }}
+                  path: ${{ runner.temp }}/artifact.tar
+                  retention-days: ${{ inputs.retention-days }}
+                  if-no-files-found: error
+
+    deploy:
+        needs: build
+
+        permissions:
+            pages: write
+            id-token: write
+
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4

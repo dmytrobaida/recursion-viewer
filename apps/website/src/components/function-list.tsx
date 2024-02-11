@@ -48,7 +48,7 @@ function FunctionListItem(props: FunctionListItemProps) {
     }, [preset]);
 
     return (
-        <div className="flex items-baseline justify-between pb-2">
+        <div className="flex items-baseline justify-between pb-2 pt-2">
             <span>
                 <span
                     className={`${

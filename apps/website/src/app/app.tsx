@@ -13,6 +13,7 @@ import { Presets } from '../constants/presets';
 import './app.css';
 
 type FunctionListItemProps = {
+    index: number;
     func: ReturnType<typeof build>[0];
     isDisabled: boolean;
     onVisualize: (func: ReturnType<typeof build>[0], params: any[]) => void;
@@ -28,31 +29,63 @@ function parseValue(v: any) {
     return parsed;
 }
 
+const colors = [
+    'text-green-500',
+    'text-blue-500',
+    'text-red-500',
+    'text-yellow-500',
+    'text-purple-500',
+];
+
 function FunctionListItem(props: FunctionListItemProps) {
-    const { func, isDisabled, onVisualize } = props;
+    const { func, isDisabled, onVisualize, index } = props;
     const [params, setParams] = useState<any[]>(
         new Array(func.parameters.length).fill(0)
     );
 
     return (
-        <div className="function-list-item">
-            <div className="function-list-item-name">{func.name}</div>
-            {func.parameters.map((p, i) => (
-                <div className="function-list-item-params" key={i}>
-                    <div>{p.name} = </div>{' '}
-                    <input
-                        type="text"
-                        defaultValue={params[i]}
-                        onChange={(e) =>
-                            setParams((prev) => {
-                                prev[i] = parseValue(e.target.value);
-                                return prev;
-                            })
-                        }
-                    />
-                </div>
-            ))}
+        <div className="flex items-baseline justify-between">
+            <span>
+                <span
+                    className={`${
+                        colors[index % colors.length]
+                    } lowercase underline underline-offset-2`}
+                >
+                    {func.name}
+                </span>
+                <span>{'('}</span>
+                <span>
+                    {func.parameters.map((p, i) => (
+                        <span key={i}>
+                            <span className="mr-1">{p.name} = </span>
+                            <input
+                                type="text"
+                                className="p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                defaultValue={params[i]}
+                                size={
+                                    params[i] != null
+                                        ? params[i].toString().length || 1
+                                        : 1
+                                }
+                                onChange={(e) =>
+                                    setParams((prev) => {
+                                        const copy = [...prev];
+                                        copy[i] = parseValue(e.target.value);
+                                        return copy;
+                                    })
+                                }
+                            />
+                            {i !== func.parameters.length - 1 && (
+                                <span>, </span>
+                            )}
+                        </span>
+                    ))}
+                </span>
+                <span>{')'}</span>
+            </span>
+
             <button
+                className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 disabled={isDisabled}
                 onClick={() => onVisualize(func, params)}
             >
@@ -76,11 +109,12 @@ function FunctionList(props: FunctionListProps) {
     }
 
     return (
-        <div className="function-list">
-            <div>Functions:</div>
+        <div className="w-full mb-4">
+            <div>List of functions found:</div>
             {functions.map((f, i) => (
                 <FunctionListItem
                     key={i}
+                    index={i}
                     func={f}
                     isDisabled={isDisabled}
                     onVisualize={onVisualize}
@@ -124,14 +158,10 @@ export function App() {
     );
 
     return (
-        <div className="wrapper">
-            <PanelGroup
-                autoSaveId="example"
-                direction="horizontal"
-                className="panel-t"
-            >
+        <div className="h-screen p-14">
+            <PanelGroup autoSaveId="example" direction="horizontal">
                 <Panel>
-                    <div className="vertical-box">
+                    <div className="h-full">
                         <FunctionList
                             functions={functions}
                             isDisabled={!isEnabled}
@@ -139,7 +169,6 @@ export function App() {
                         />
                         <Editor
                             language="typescript"
-                            className="code-editor"
                             defaultValue={functionText}
                             onValidate={(markers) => {
                                 const isValid = markers.every(
@@ -155,11 +184,11 @@ export function App() {
                         />
                     </div>
                 </Panel>
-                <PanelResizeHandle className="resize-handle" />
+                <PanelResizeHandle className="w-1 ml-3 mr-3 bg-slate-500/50" />
                 <Panel>
                     <iframe
                         title="Recursion visualizer"
-                        className="visualizer"
+                        className="w-full h-full line-grid-bg"
                         srcDoc={iframeDoc}
                     ></iframe>
                 </Panel>

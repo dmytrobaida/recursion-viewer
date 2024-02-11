@@ -16,3 +16,10 @@
             transparent 1px
         );
 }
+
+section:has(.mon-editor) {
+    height: auto !important;
+    margin-top: auto;
+    border-width: 2px;
+    flex-grow: 1;
+}

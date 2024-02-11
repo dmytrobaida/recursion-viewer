@@ -12,8 +12,8 @@ export type CallResult = {
 export type BuilderFunction = (...params: any[]) => CallResult;
 
 export type BuilderResult = {
-    func: BuilderFunction;
-    funcName: string;
+    run: BuilderFunction;
+    name: string;
     parameters: {
         name: string;
     }[];

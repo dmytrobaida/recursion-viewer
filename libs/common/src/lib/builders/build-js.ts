@@ -21,11 +21,12 @@ function wrapFunction(src: string, functionName: string, params: object[]) {
             const proxy = new Proxy(func, {
                 apply: (target, thisArg, argArray) => {
                     const hash = Math.floor(Math.random() * ${MaxHashValue}) + ${MinHashValue};
+                    
                     thisArg.hashes.push(hash);
+                    thisArg.total += 1;
 
-                    if (thisArg.hashes.length >= ${RecursionLimit}) {
-                        debugger
-                        throw new Error('Reached recursion depth: ${RecursionLimit}!');
+                    if (thisArg.total >= ${RecursionLimit}) {
+                        throw new Error('Reached recursion calls maximum: ${RecursionLimit}!');
                     }
 
                     const result = target.apply(thisArg, argArray);
@@ -52,6 +53,7 @@ function wrapFunction(src: string, functionName: string, params: object[]) {
         ${functionName} = wrapFunction(${functionName}).bind({
             hashes: [],
             calls: calls,
+            total: 0,
         });
 
         ${functionName}.apply(null, ${JSON.stringify(params)});
@@ -76,8 +78,8 @@ export function build(src: string): BuilderResult[] {
         const functionName = func.name!.text;
 
         return {
-            funcName: functionName,
-            func: function (...params: object[]) {
+            name: functionName,
+            run: function (...params: object[]) {
                 const scriptSrc = ts.transpileModule(
                     wrapFunction(src, functionName, params),
                     {}

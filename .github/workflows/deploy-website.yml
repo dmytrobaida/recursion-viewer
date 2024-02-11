@@ -28,7 +28,7 @@ jobs:
 
             - run: yarn nx run website:build
 
-            - name: Deploy website
+            - name: Upload artifact
               id: upload-artifact
               uses: actions/upload-pages-artifact@v3
               with:

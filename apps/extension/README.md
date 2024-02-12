@@ -6,7 +6,7 @@ VS Code extension for visualizing recursive function calls. You can also visit w
 
 This VS Code extension helps to visualize recursion tree of any function written in JavaScript or TypeScript. It may help you to get better understanding how recursion works and debug you code if needed
 
-![Visualization example](./assets/extension.gif)
+![Visualization example](https://raw.githubusercontent.com/dmytrobaida/recursion-viewer/main/apps/extension/assets/extension.gif)
 
 ## Requirements and supported languages
 
@@ -20,3 +20,15 @@ Currently supported languages:
 ### 1.0.0
 
 Initial release of Recursion Viewer
+
+### 1.0.1
+
+Minor adjustments
+
+### 1.0.2
+
+Minor adjustments
+
+### 1.0.4
+
+Minor adjustments

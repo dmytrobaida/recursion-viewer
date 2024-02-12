@@ -3,7 +3,10 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "watch:extension": "yarn nx run extension:build --watch"
+        "watch:extension": "yarn nx run extension:build --watch",
+        "build:extension": "yarn nx run extension:build",
+        "package:extension": "yarn build:extension && cd ./dist/apps/extension && vsce package",
+        "publish:extension": "cd ./dist/apps/extension && vsce publish"
     },
     "private": true,
     "dependencies": {

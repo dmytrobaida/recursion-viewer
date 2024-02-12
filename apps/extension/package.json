@@ -1,8 +1,9 @@
 {
-    "name": "@recursion-viewer/extension",
+    "name": "recursion-viewer",
     "displayName": "Recursion Viewer",
     "description": "VS Code extension which helps visualize recursion calls tree to make it easier to understand",
-    "version": "1.0.0",
+    "version": "1.0.1",
+    "icon": "assets/icon256.png",
     "homepage": "https://github.com/dmytrobaida/recursion-viewer/tree/main/apps/extension#readme",
     "bugs": "https://github.com/dmytrobaida/recursion-viewer/issues",
     "repository": {

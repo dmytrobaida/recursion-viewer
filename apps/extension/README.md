@@ -6,7 +6,7 @@ VS Code extension for visualizing recursive function calls. You can also visit w
 
 This VS Code extension helps to visualize recursion tree of any function written in JavaScript or TypeScript. It may help you to get better understanding how recursion works and debug you code if needed
 
-![Fibonacci function visualization](./assets/extension.gif)
+![Visualization example](./assets/extension.gif)
 
 ## Requirements and supported languages
 

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<meta charset="utf-8" />
 
-<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
-<div id="graph"></div>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline';">
+
+<script>
+    {{{cytoscape}}}
+    {{{dagre}}}
+    {{{cytoscapeDagre}}}
+</script>
 
 <style>
     #cy {
@@ -19,7 +22,7 @@
 
 <script>
     function getData() {
-        const data = JSON.parse(`{{{graphData}}}`);
+        const data = {{{graphData}}};
         return data;
     }
 

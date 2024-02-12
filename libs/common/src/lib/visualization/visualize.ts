@@ -1,13 +1,16 @@
 import Mustache from 'mustache';
 
-import v1 from './templates/v1.html?raw';
-import v2 from './templates/v2.html?raw';
+import template from './templates/cyto.mustache?raw';
+import cytoscape from './scripts/cytoscape.3.28.1.txt?raw';
+import dagre from './scripts/dagre.0.8.5.txt?raw';
+import cytoscapeDagre from './scripts/cytoscape-darge.2.5.0.txt?raw';
 
-export function visualize(version: 'v1' | 'v2', graphData: object): string {
-    const template = version === 'v1' ? v1 : v2;
-
+export function visualize(graphData: object): string {
     const rendered = Mustache.render(template, {
         graphData: JSON.stringify(graphData),
+        cytoscape: cytoscape,
+        dagre: dagre,
+        cytoscapeDagre: cytoscapeDagre,
     });
 
     return rendered;

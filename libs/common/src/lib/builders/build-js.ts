@@ -40,7 +40,7 @@ function wrapFunction(src: string, functionName: string, params: object[]) {
                     thisArg.calls[parentHash].push({
                         targetHash: currentHash,
                         inputParams: argArray,
-                        callResult: result,
+                        callResult: result?.toString(),
                     });
 
                     return result;

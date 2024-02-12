@@ -48,7 +48,7 @@ export function App() {
                     func.name
                 );
 
-                setIframeDoc(visualize('v2', transformed));
+                setIframeDoc(visualize(transformed));
             } catch (err) {
                 // TODO: add proper error handling
                 alert(err);

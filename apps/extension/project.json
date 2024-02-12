@@ -14,7 +14,8 @@
                 "main": "apps/extension/src/index.ts",
                 "tsConfig": "apps/extension/tsconfig.lib.json",
                 "assets": [
-                    "apps/extension/*.md"
+                    "apps/extension/*.md",
+                    "apps/extension/assets/*.svg"
                 ],
                 "generatePackageJson": true,
                 "format": [
@@ -26,7 +27,7 @@
                 "sourcemap": true,
                 "esbuildOptions": {
                     "loader": {
-                        ".html": "text"
+                        ".mustache": "text"
                     }
                 }
             }

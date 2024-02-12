@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { build } from '@recursion-viewer/common';
+import { build, parseValue } from '@recursion-viewer/common';
 import { useEffect, useState } from 'react';
 
 import { Presets } from '../constants/presets';
@@ -26,16 +26,6 @@ const Colors = [
     'text-yellow-500',
     'text-purple-500',
 ];
-
-function parseValue(v: any) {
-    const parsed = Number.parseInt(v);
-
-    if (Number.isNaN(parsed)) {
-        return v;
-    }
-
-    return parsed;
-}
 
 function FunctionListItem(props: FunctionListItemProps) {
     const { func, isDisabled, onVisualize, index, preset } = props;

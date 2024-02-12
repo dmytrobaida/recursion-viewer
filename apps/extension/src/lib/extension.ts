@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 
 import {
     build,
+    parseValue,
     transformCallResultToCytoElements,
     visualize,
 } from '@recursion-viewer/common';
@@ -14,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand(
             'recursion-viewer.generate',
-            (funcName, functionText) => {
+            async (funcName, functionText) => {
                 const functions = build(functionText);
                 const func = functions.find((f) => f.name === funcName);
 
@@ -24,7 +25,20 @@ export function activate(context: vscode.ExtensionContext) {
                     return;
                 }
 
-                const result = func.run(5);
+                const params = [];
+
+                for (const p of func.parameters) {
+                    const val = await vscode.window.showInputBox({
+                        title: `Please enter function parameter ${p.name} = `,
+                        value: '0',
+                        valueSelection: [0, 2],
+                    });
+
+                    const parsed = parseValue(val);
+                    params.push(parsed);
+                }
+
+                const result = func.run(...params);
                 const transformed = transformCallResultToCytoElements(
                     result,
                     func.name

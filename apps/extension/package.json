@@ -3,7 +3,6 @@
     "displayName": "recursion-viewer",
     "description": "VS Code extension which helps visualize recursion calls tree to make it easier to understand",
     "version": "0.0.1",
-    "dependencies": {},
     "type": "commonjs",
     "main": "./index.cjs",
     "engines": {

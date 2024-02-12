@@ -18,7 +18,7 @@ export class ViewRecursionProvider implements vscode.CodeLensProvider {
         this.onDidChangeCodeLensesEmitter.event;
 
     constructor() {
-        vscode.workspace.onDidChangeTextDocument((_) => {
+        vscode.workspace.onDidChangeTextDocument(() => {
             this.onDidChangeCodeLensesEmitter.fire();
         });
     }

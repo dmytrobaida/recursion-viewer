@@ -29,6 +29,10 @@ Minor adjustments
 
 Minor adjustments
 
-### 1.0.4
+### 1.0.3
 
 Minor adjustments
+
+### 1.0.4
+
+Fixes issue with absent typescript package in bundle

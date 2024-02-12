@@ -26,6 +26,7 @@
                 "external": [
                     "vscode"
                 ],
+                "thirdParty": true,
                 "sourcemap": true,
                 "esbuildOptions": {
                     "loader": {

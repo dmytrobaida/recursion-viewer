@@ -4,7 +4,7 @@
 
 Monorepo containing website and VS Code extension for visualizing recursive function calls
 
-![Fibonacci function visualization](./images/graph.png)
+![Fibonacci function visualization](./assets/graph.png)
 
 ## How to build and run projects
 

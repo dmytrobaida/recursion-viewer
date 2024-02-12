@@ -16,7 +16,8 @@
                 "assets": [
                     "apps/extension/*.md",
                     "apps/extension/assets/*.svg",
-                    "apps/extension/assets/*.png"
+                    "apps/extension/assets/*.png",
+                    "apps/extension/assets/*.gif"
                 ],
                 "generatePackageJson": true,
                 "format": [

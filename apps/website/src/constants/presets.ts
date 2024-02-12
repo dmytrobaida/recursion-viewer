@@ -19,6 +19,24 @@ function fib(n: number) {
         defaultParameters: [5],
     },
     {
+        name: 'Fibonacci with memo',
+        body: `// Fibonacci with memo
+const memo = [];
+
+function fib(n: number) {
+  if (n == 0 || n == 1) {
+    return n;
+  }
+
+  if (memo[n] != null) {
+    return memo[n];
+  }
+
+  return memo[n] = fib(n - 1) + fib(n - 2);
+}`,
+        defaultParameters: [5],
+    },
+    {
         name: '0/1 Knapsack',
         body: `// 0/1 Knapsack
 const v = [100,70,50,10];

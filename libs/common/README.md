@@ -1,7 +1,11 @@
-# common
+# Recursion Viewer common library
 
-This library was generated with [Nx](https://nx.dev).
+This library contain shared logic for website and extension projects
 
 ## Building
 
-Run `nx build common` to build the library.
+-Run this command to build the library:
+
+```bash
+nx build common
+```

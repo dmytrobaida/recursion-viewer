@@ -1,16 +1,32 @@
 {
     "name": "@recursion-viewer/extension",
-    "displayName": "recursion-viewer",
+    "displayName": "Recursion Viewer",
     "description": "VS Code extension which helps visualize recursion calls tree to make it easier to understand",
-    "version": "0.0.1",
+    "version": "1.0.0",
+    "homepage": "https://github.com/dmytrobaida/recursion-viewer/tree/main/apps/extension#readme",
+    "bugs": "https://github.com/dmytrobaida/recursion-viewer/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dmytrobaida/recursion-viewer/tree/main/apps/extension"
+    },
+    "license": "MIT",
+    "publisher": "DmytroBaida",
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "Recursion",
+        "Visualization",
+        "Tree",
+        "Graph",
+        "TypeScript",
+        "JavaScript"
+    ],
     "type": "commonjs",
     "main": "./index.cjs",
     "engines": {
         "vscode": "^1.85.0"
     },
-    "categories": [
-        "Other"
-    ],
     "activationEvents": [
         "onLanguage:typescript",
         "onLanguage:javascript"

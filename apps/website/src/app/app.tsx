@@ -7,6 +7,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
+import { Header } from '@portfolio.md/components';
 
 import { Presets } from '../constants/presets';
 import CardWrapper from '../components/card-wrapper';
@@ -58,7 +59,24 @@ export function App() {
     );
 
     return (
-        <div className="h-screen p-14">
+        <div className="h-screen p-14 pt-0">
+            <Header
+                home={{
+                    title: 'Recursion Viewer',
+                    url: '#',
+                }}
+                menu={[]}
+                socials={[
+                    {
+                        type: 'github',
+                        url: 'https://github.com/dmytrobaida',
+                    },
+                    {
+                        type: 'linkedin',
+                        url: 'https://www.linkedin.com/in/dmytrobaida/',
+                    },
+                ]}
+            />
             <PanelGroup
                 autoSaveId="recursion-visualizer"
                 direction="horizontal"

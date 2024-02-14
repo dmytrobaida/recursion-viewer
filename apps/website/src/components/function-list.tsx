@@ -47,11 +47,13 @@ function FunctionListItem(props: FunctionListItemProps) {
                 >
                     {func.name}
                 </span>
-                <span>{'('}</span>
+                <span className="text-black dark:text-white">{'('}</span>
                 <span>
                     {func.parameters.map((p, i) => (
                         <span key={i}>
-                            <span className="mr-1">{p.name} = </span>
+                            <span className="mr-1 text-black dark:text-white">
+                                {p.name} ={' '}
+                            </span>
                             <input
                                 type="text"
                                 className="p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -75,7 +77,7 @@ function FunctionListItem(props: FunctionListItemProps) {
                         </span>
                     ))}
                 </span>
-                <span>{')'}</span>
+                <span className="text-black dark:text-white">{')'}</span>
             </span>
 
             <button

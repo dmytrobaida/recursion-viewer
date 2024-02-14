@@ -14,6 +14,8 @@ import CardWrapper from '../components/card-wrapper';
 import FunctionList from '../components/function-list';
 import PresetsList from '../components/presets-list';
 
+import logo from '../../assets/logo.svg';
+
 import './app.css';
 
 export function App() {
@@ -64,6 +66,7 @@ export function App() {
                 home={{
                     title: 'Recursion Viewer',
                     url: '#',
+                    logoUrl: logo,
                 }}
                 menu={[]}
                 socials={[

@@ -1813,10 +1813,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.24.tgz#58601079e11784d20f82d0585865bb42305c4df3"
   integrity sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==
 
-"@portfolio.md/components@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@portfolio.md/components/-/components-0.0.5.tgz#72e9f4723b6722ce1b10ac47c548c23d33ef74f9"
-  integrity sha512-THtV8ezDfl14dLPiwICcpgPIlrb6+lP0wV7OC6rgjyiGfyvKnle/gK8b5S6b6N/Kr7drbaFiywWdVxDXJtKvlw==
+"@portfolio.md/components@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@portfolio.md/components/-/components-0.0.15.tgz#2ae55686f5e36874915558ea732ef2e1b50b8b13"
+  integrity sha512-sUACt0wrJJSbQ796YnxrUDp8nvdROz4why1JKyL85DxmX57vf7CJr/cQx35j4M8evvqWzwPnbZmvBJd2kta2iw==
 
 "@rollup/rollup-android-arm-eabi@4.10.0":
   version "4.10.0"

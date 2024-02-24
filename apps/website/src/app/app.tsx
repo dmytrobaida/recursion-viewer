@@ -7,7 +7,13 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
-import { Footer, Header, Wrapper, useTheme } from '@portfolio.md/components';
+import {
+    Content,
+    Footer,
+    Header,
+    Wrapper,
+    useTheme,
+} from '@portfolio.md/components';
 
 import { Presets } from '../constants/presets';
 import CardWrapper from '../components/card-wrapper';
@@ -63,80 +69,74 @@ export function App() {
 
     return (
         <Wrapper>
-            <div className="h-full flex flex-col">
-                <Header
-                    home={{
-                        title: 'Recursion Viewer',
-                        url: '#',
-                        logoUrl: logo,
-                    }}
-                    menu={[]}
-                />
-                <div className="flex-grow">
-                    <PanelGroup
-                        autoSaveId="recursion-visualizer"
-                        direction="horizontal"
-                    >
-                        <Panel>
-                            <CardWrapper>
-                                <PresetsList
-                                    onSelect={setPreset}
-                                    presets={Presets}
-                                />
-                                <FunctionList
-                                    functions={functions}
-                                    isDisabled={!isEnabled}
-                                    onVisualize={clickHandler}
-                                    preset={preset}
-                                />
+            <Header
+                home={{
+                    title: 'Recursion Viewer',
+                    url: '/',
+                    logoUrl: logo,
+                }}
+                menu={[]}
+            />
+            <Content>
+                <PanelGroup
+                    autoSaveId="recursion-visualizer"
+                    direction="horizontal"
+                >
+                    <Panel>
+                        <CardWrapper>
+                            <PresetsList
+                                onSelect={setPreset}
+                                presets={Presets}
+                            />
+                            <FunctionList
+                                functions={functions}
+                                isDisabled={!isEnabled}
+                                onVisualize={clickHandler}
+                                preset={preset}
+                            />
 
-                                <Editor
-                                    className="mon-editor"
-                                    language="typescript"
-                                    value={functionText}
-                                    onValidate={(markers) => {
-                                        const isValid = markers.every(
-                                            (m) => m.severity === 1
-                                        );
-                                        setIsEnabled(isValid);
-                                    }}
-                                    onChange={(v) => setFunctionText(v ?? '')}
-                                    theme={
-                                        theme === 'dark' ? 'vs-dark' : 'light'
-                                    }
-                                />
-                            </CardWrapper>
-                        </Panel>
-                        <PanelResizeHandle className="w-1 ml-3 mr-3 bg-slate-500/50" />
-                        <Panel>
-                            <CardWrapper>
-                                <iframe
-                                    title="Recursion visualizer"
-                                    className="w-full h-full line-grid-bg"
-                                    srcDoc={iframeDoc}
-                                ></iframe>
-                            </CardWrapper>
-                        </Panel>
-                    </PanelGroup>
-                </div>
-                <Footer
-                    socials={[
-                        {
-                            type: 'github',
-                            url: 'https://github.com/dmytrobaida',
-                        },
-                        {
-                            type: 'linkedin',
-                            url: 'https://www.linkedin.com/in/dmytrobaida/',
-                        },
-                    ]}
-                    credentials={{
-                        year: 2024,
-                        title: 'Dmytro Baida',
-                        url: '#',
-                    }}
-                />
-            </div>
+                            <Editor
+                                className="mon-editor"
+                                language="typescript"
+                                value={functionText}
+                                onValidate={(markers) => {
+                                    const isValid = markers.every(
+                                        (m) => m.severity === 1
+                                    );
+                                    setIsEnabled(isValid);
+                                }}
+                                onChange={(v) => setFunctionText(v ?? '')}
+                                theme={theme === 'dark' ? 'vs-dark' : 'light'}
+                            />
+                        </CardWrapper>
+                    </Panel>
+                    <PanelResizeHandle className="w-1 ml-3 mr-3 bg-slate-500/50" />
+                    <Panel>
+                        <CardWrapper>
+                            <iframe
+                                title="Recursion visualizer"
+                                className="w-full h-full line-grid-bg"
+                                srcDoc={iframeDoc}
+                            ></iframe>
+                        </CardWrapper>
+                    </Panel>
+                </PanelGroup>
+            </Content>
+            <Footer
+                socials={[
+                    {
+                        url: 'https://github.com/dmytrobaida',
+                    },
+                    {
+                        url: 'https://www.linkedin.com/in/dmytrobaida/',
+                    },
+                ]}
+                credentials={{
+                    year: 2024,
+                    title: 'Dmytro Baida',
+                    url: '/',
+                }}
+            />
         </Wrapper>
     );
 }

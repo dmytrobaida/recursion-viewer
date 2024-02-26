@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { build, parseValue } from '@recursion-viewer/common';
 import { useEffect, useState } from 'react';
+import { Button } from '@portfolio.md/components';
 
 import { Presets } from '../constants/presets';
 
@@ -80,13 +81,13 @@ function FunctionListItem(props: FunctionListItemProps) {
                 <span className="text-black dark:text-white">{')'}</span>
             </span>
 
-            <button
-                className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                disabled={isDisabled}
+            <Button
+                isDisabled={isDisabled}
                 onClick={() => onVisualize(func, params)}
+                color="primary"
             >
                 Visualize
-            </button>
+            </Button>
         </div>
     );
 }

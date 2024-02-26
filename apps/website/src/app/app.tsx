@@ -96,7 +96,6 @@ export function App() {
                                     onVisualize={clickHandler}
                                     preset={preset}
                                 />
-
                                 <Editor
                                     className="mon-editor"
                                     language="typescript"
@@ -127,7 +126,6 @@ export function App() {
                                     title="Recursion visualizer"
                                     className="h-full auto-color-scheme"
                                     srcDoc={iframeDoc}
-                                    allowTransparency={true}
                                 ></iframe>
                             </CardBody>
                         </Card>

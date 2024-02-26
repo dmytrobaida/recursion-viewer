@@ -23,3 +23,7 @@ section:has(.mon-editor) {
     border-width: 2px;
     flex-grow: 1;
 }
+
+.auto-color-scheme {
+    color-scheme: auto;
+}

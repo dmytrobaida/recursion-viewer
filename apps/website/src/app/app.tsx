@@ -13,10 +13,11 @@ import {
     Header,
     Wrapper,
     useTheme,
+    Card,
+    CardBody,
 } from '@portfolio.md/components';
 
 import { Presets } from '../constants/presets';
-import CardWrapper from '../components/card-wrapper';
 import FunctionList from '../components/function-list';
 import PresetsList from '../components/presets-list';
 
@@ -83,42 +84,53 @@ export function App() {
                     direction="horizontal"
                 >
                     <Panel>
-                        <CardWrapper>
-                            <PresetsList
-                                onSelect={setPreset}
-                                presets={Presets}
-                            />
-                            <FunctionList
-                                functions={functions}
-                                isDisabled={!isEnabled}
-                                onVisualize={clickHandler}
-                                preset={preset}
-                            />
+                        <Card className="h-full" radius="none" shadow="none">
+                            <CardBody>
+                                <PresetsList
+                                    onSelect={setPreset}
+                                    presets={Presets}
+                                />
+                                <FunctionList
+                                    functions={functions}
+                                    isDisabled={!isEnabled}
+                                    onVisualize={clickHandler}
+                                    preset={preset}
+                                />
 
-                            <Editor
-                                className="mon-editor"
-                                language="typescript"
-                                value={functionText}
-                                onValidate={(markers) => {
-                                    const isValid = markers.every(
-                                        (m) => m.severity === 1
-                                    );
-                                    setIsEnabled(isValid);
-                                }}
-                                onChange={(v) => setFunctionText(v ?? '')}
-                                theme={theme === 'dark' ? 'vs-dark' : 'light'}
-                            />
-                        </CardWrapper>
+                                <Editor
+                                    className="mon-editor"
+                                    language="typescript"
+                                    value={functionText}
+                                    onValidate={(markers) => {
+                                        const isValid = markers.every(
+                                            (m) => m.severity === 1
+                                        );
+                                        setIsEnabled(isValid);
+                                    }}
+                                    onChange={(v) => setFunctionText(v ?? '')}
+                                    theme={
+                                        theme === 'dark' ? 'vs-dark' : 'light'
+                                    }
+                                />
+                            </CardBody>
+                        </Card>
                     </Panel>
                     <PanelResizeHandle className="w-1 ml-3 mr-3 bg-slate-500/50" />
                     <Panel>
-                        <CardWrapper>
-                            <iframe
-                                title="Recursion visualizer"
-                                className="w-full h-full line-grid-bg"
-                                srcDoc={iframeDoc}
-                            ></iframe>
-                        </CardWrapper>
+                        <Card
+                            className="h-full p-0 line-grid-bg"
+                            radius="none"
+                            shadow="none"
+                        >
+                            <CardBody>
+                                <iframe
+                                    title="Recursion visualizer"
+                                    className="h-full auto-color-scheme"
+                                    srcDoc={iframeDoc}
+                                    allowTransparency={true}
+                                ></iframe>
+                            </CardBody>
+                        </Card>
                     </Panel>
                 </PanelGroup>
             </Content>

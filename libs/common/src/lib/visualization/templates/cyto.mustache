@@ -1,93 +1,96 @@
 <!DOCTYPE html>
 
-<meta charset="utf-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline';">
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline';">
 
-<script>
-    {{{cytoscape}}}
-    {{{dagre}}}
-    {{{cytoscapeDagre}}}
-</script>
+    <script>
+        {{{cytoscape}}}
+        {{{dagre}}}
+        {{{cytoscapeDagre}}}
+    </script>
 
-<style>
-    #cy {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 999;
-    }
-</style>
+    <style>
+      #cy {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 999;
+      }
+    </style>
 
-<script>
-    function getData() {
-        const data = {{{graphData}}};
-        return data;
-    }
+    <script>
+        function getData() {
+            const data = {{{graphData}}};
+            return data;
+        }
 
-    window.addEventListener('DOMContentLoaded', function () {
-        const cy = cytoscape({
-            container: document.getElementById('cy'),
-            boxSelectionEnabled: false,
-            autounselectify: true,
-            layout: {
-                name: 'dagre',
-                nodeDimensionsIncludeLabels: true,
-            },
-            style: [
-                {
-                    selector: 'node',
-                    style: {
-                        'background-color': '#11479e',
-                    },
+        window.addEventListener('DOMContentLoaded', function () {
+            const cy = cytoscape({
+                container: document.getElementById('cy'),
+                boxSelectionEnabled: false,
+                autounselectify: true,
+                layout: {
+                    name: 'dagre',
+                    nodeDimensionsIncludeLabels: true,
                 },
-                {
-                    selector: 'edge',
-                    style: {
-                        width: 4,
-                        'source-arrow-shape': 'triangle',
-                        'source-arrow-color': '#9dbaea',
-                        'line-color': '#9dbaea',
-                        'curve-style': 'bezier',
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'background-color': '#11479e',
+                        },
                     },
-                },
-                {
-                    selector: 'node[label]',
-                    style: {
-                        label: 'data(label)',
-                        'text-valign': 'center',
-                        'text-halign': 'center',
-                        'text-background-opacity': 0.5,
-                        'text-background-color': '#fff',
-                        'text-background-shape': 'roundrectangle',
-                        'text-background-padding': 3,
+                    {
+                        selector: 'edge',
+                        style: {
+                            width: 4,
+                            'source-arrow-shape': 'triangle',
+                            'source-arrow-color': '#9dbaea',
+                            'line-color': '#9dbaea',
+                            'curve-style': 'bezier',
+                        },
                     },
-                },
-                {
-                    selector: 'edge[label]',
-                    style: {
-                        label: 'data(label)',
-                        width: 3,
-                        'text-background-opacity': 0.5,
-                        'text-background-color': '#fff',
-                        'text-background-shape': 'roundrectangle',
-                        'text-background-padding': 2,
+                    {
+                        selector: 'node[label]',
+                        style: {
+                            label: 'data(label)',
+                            'text-valign': 'center',
+                            'text-halign': 'center',
+                            'text-background-opacity': 0.5,
+                            'text-background-color': '#fff',
+                            'text-background-shape': 'roundrectangle',
+                            'text-background-padding': 3,
+                        },
                     },
-                },
-            ],
-            elements: getData(),
+                    {
+                        selector: 'edge[label]',
+                        style: {
+                            label: 'data(label)',
+                            width: 3,
+                            'text-background-opacity': 0.5,
+                            'text-background-color': '#fff',
+                            'text-background-shape': 'roundrectangle',
+                            'text-background-padding': 2,
+                        },
+                    },
+                ],
+                elements: getData(),
+            });
+
+            cy.minZoom(0.1);
+            cy.maxZoom(5);
+
+            addEventListener('resize', (event) => {
+                cy.fit();
+            });
         });
-
-        cy.minZoom(0.1);
-        cy.maxZoom(5);
-
-        addEventListener('resize', (event) => {
-            cy.fit();
-        });
-    });
-</script>
-
-<body>
+    </script>
+  </head>
+  <body>
     <div id="cy"></div>
-</body>
+  </body>
+</html>

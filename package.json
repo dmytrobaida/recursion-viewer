@@ -11,7 +11,7 @@
   "private": true,
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
-    "@portfolio.md/components": "0.0.36",
+    "@portfolio.md/components": "0.0.37",
     "mustache": "^4.2.0",
     "react": "18.2.0",
     "react-device-detect": "^2.2.3",

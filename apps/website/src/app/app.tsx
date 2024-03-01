@@ -69,6 +69,47 @@ export function App() {
         []
     );
 
+    const LeftCard = (
+        <Card className="h-full" radius="none" shadow="none">
+            <CardBody>
+                <PresetsList onSelect={setPreset} presets={Presets} />
+                <FunctionList
+                    functions={functions}
+                    isDisabled={!isEnabled}
+                    onVisualize={clickHandler}
+                    preset={preset}
+                />
+                {!isMobile && (
+                    <Editor
+                        className="mon-editor"
+                        language="typescript"
+                        value={functionText}
+                        onValidate={(markers) => {
+                            const isValid = markers.every(
+                                (m) => m.severity === 1
+                            );
+                            setIsEnabled(isValid);
+                        }}
+                        onChange={(v) => setFunctionText(v ?? '')}
+                        theme={theme === 'dark' ? 'vs-dark' : 'light'}
+                    />
+                )}
+            </CardBody>
+        </Card>
+    );
+
+    const RightCard = (
+        <Card className="h-full grow" radius="none" shadow="none">
+            <CardBody>
+                <iframe
+                    title="Recursion visualizer"
+                    className="h-full grow auto-color-scheme line-grid-bg"
+                    srcDoc={iframeDoc}
+                ></iframe>
+            </CardBody>
+        </Card>
+    );
+
     return (
         <Wrapper>
             <Header
@@ -77,68 +118,27 @@ export function App() {
                     url: './',
                     logoUrl: logo,
                 }}
-                menu={[]}
+                menu={[
+                    {
+                        title: 'Portfolio',
+                        url: 'https://dmytrobaida.github.io',
+                    },
+                ]}
             />
             <Content>
-                <PanelGroup
-                    autoSaveId="recursion-visualizer"
-                    direction={isMobile ? 'vertical' : 'horizontal'}
-                    className="grow"
-                >
-                    <Panel>
-                        <Card className="h-full" radius="none" shadow="none">
-                            <CardBody>
-                                <PresetsList
-                                    onSelect={setPreset}
-                                    presets={Presets}
-                                />
-                                <FunctionList
-                                    functions={functions}
-                                    isDisabled={!isEnabled}
-                                    onVisualize={clickHandler}
-                                    preset={preset}
-                                />
-                                {!isMobile && (
-                                    <Editor
-                                        className="mon-editor"
-                                        language="typescript"
-                                        value={functionText}
-                                        onValidate={(markers) => {
-                                            const isValid = markers.every(
-                                                (m) => m.severity === 1
-                                            );
-                                            setIsEnabled(isValid);
-                                        }}
-                                        onChange={(v) =>
-                                            setFunctionText(v ?? '')
-                                        }
-                                        theme={
-                                            theme === 'dark'
-                                                ? 'vs-dark'
-                                                : 'light'
-                                        }
-                                    />
-                                )}
-                            </CardBody>
-                        </Card>
-                    </Panel>
-                    <PanelResizeHandle className="w-1 ml-3 mr-3 bg-slate-500/50" />
-                    <Panel>
-                        <Card
-                            className="h-full p-0 line-grid-bg"
-                            radius="none"
-                            shadow="none"
-                        >
-                            <CardBody>
-                                <iframe
-                                    title="Recursion visualizer"
-                                    className="h-full auto-color-scheme"
-                                    srcDoc={iframeDoc}
-                                ></iframe>
-                            </CardBody>
-                        </Card>
-                    </Panel>
-                </PanelGroup>
+                {isMobile ? (
+                    [LeftCard, RightCard]
+                ) : (
+                    <PanelGroup
+                        autoSaveId="recursion-visualizer"
+                        direction={'horizontal'}
+                        className="grow"
+                    >
+                        <Panel>{LeftCard}</Panel>
+                        <PanelResizeHandle className="w-1 ml-3 mr-3 bg-slate-500/50" />
+                        <Panel>{RightCard}</Panel>
+                    </PanelGroup>
+                )}
             </Content>
             <Footer
                 socials={[
@@ -155,7 +155,7 @@ export function App() {
                 credentials={{
                     year: 2024,
                     title: 'Dmytro Baida',
-                    url: './',
+                    url: 'https://dmytrobaida.github.io',
                 }}
             />
         </Wrapper>

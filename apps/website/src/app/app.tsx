@@ -16,6 +16,7 @@ import {
     Card,
     CardBody,
 } from '@portfolio.md/components';
+import { isMobile } from 'react-device-detect';
 
 import { Presets } from '../constants/presets';
 import FunctionList from '../components/function-list';
@@ -73,7 +74,7 @@ export function App() {
             <Header
                 home={{
                     title: 'Recursion Viewer',
-                    url: '/',
+                    url: './',
                     logoUrl: logo,
                 }}
                 menu={[]}
@@ -81,7 +82,8 @@ export function App() {
             <Content>
                 <PanelGroup
                     autoSaveId="recursion-visualizer"
-                    direction="horizontal"
+                    direction={isMobile ? 'vertical' : 'horizontal'}
+                    className="grow"
                 >
                     <Panel>
                         <Card className="h-full" radius="none" shadow="none">
@@ -96,21 +98,27 @@ export function App() {
                                     onVisualize={clickHandler}
                                     preset={preset}
                                 />
-                                <Editor
-                                    className="mon-editor"
-                                    language="typescript"
-                                    value={functionText}
-                                    onValidate={(markers) => {
-                                        const isValid = markers.every(
-                                            (m) => m.severity === 1
-                                        );
-                                        setIsEnabled(isValid);
-                                    }}
-                                    onChange={(v) => setFunctionText(v ?? '')}
-                                    theme={
-                                        theme === 'dark' ? 'vs-dark' : 'light'
-                                    }
-                                />
+                                {!isMobile && (
+                                    <Editor
+                                        className="mon-editor"
+                                        language="typescript"
+                                        value={functionText}
+                                        onValidate={(markers) => {
+                                            const isValid = markers.every(
+                                                (m) => m.severity === 1
+                                            );
+                                            setIsEnabled(isValid);
+                                        }}
+                                        onChange={(v) =>
+                                            setFunctionText(v ?? '')
+                                        }
+                                        theme={
+                                            theme === 'dark'
+                                                ? 'vs-dark'
+                                                : 'light'
+                                        }
+                                    />
+                                )}
                             </CardBody>
                         </Card>
                     </Panel>
@@ -135,16 +143,19 @@ export function App() {
             <Footer
                 socials={[
                     {
-                        url: 'https://github.com/dmytrobaida',
+                        url: 'https://github.com/dmytrobaida/recursion-viewer',
                     },
                     {
-                        url: 'https://www.linkedin.com/in/dmytrobaida/',
+                        url: 'https://www.linkedin.com/in/dmytrobaida',
+                    },
+                    {
+                        url: 'https://leetcode.com/dmytrobaida',
                     },
                 ]}
                 credentials={{
                     year: 2024,
                     title: 'Dmytro Baida',
-                    url: '/',
+                    url: './',
                 }}
             />
         </Wrapper>

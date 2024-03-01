@@ -118,7 +118,16 @@ export function App() {
                     url: './',
                     logoUrl: logo,
                 }}
-                menu={[]}
+                menu={[
+                    {
+                        title: 'VS Code Extension',
+                        url: 'https://marketplace.visualstudio.com/items?itemName=DmytroBaida.recursion-viewer',
+                    },
+                    {
+                        title: 'GitHub Repo',
+                        url: 'https://github.com/dmytrobaida/recursion-viewer',
+                    },
+                ]}
             />
             <Content>
                 {isMobile ? (
@@ -138,7 +147,7 @@ export function App() {
             <Footer
                 socials={[
                     {
-                        url: 'https://github.com/dmytrobaida/recursion-viewer',
+                        url: 'https://github.com/dmytrobaida',
                     },
                     {
                         url: 'https://www.linkedin.com/in/dmytrobaida',

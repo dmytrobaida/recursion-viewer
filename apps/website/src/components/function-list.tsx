@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { build, parseValue } from '@recursion-viewer/common';
 import { useEffect, useState } from 'react';
-import { Button } from '@portfolio.md/components';
+import { Button, Tooltip } from '@portfolio.md/components';
 
 import { Presets } from '../constants/presets';
 
@@ -40,7 +40,7 @@ function FunctionListItem(props: FunctionListItemProps) {
 
     return (
         <div className="flex items-baseline justify-between pb-2 pt-2">
-            <span>
+            <span className="leading-3">
                 <span
                     className={`${
                         Colors[index % Colors.length]
@@ -57,7 +57,7 @@ function FunctionListItem(props: FunctionListItemProps) {
                             </span>
                             <input
                                 type="text"
-                                className="p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 value={params[i]}
                                 size={
                                     params[i] != null
@@ -81,13 +81,15 @@ function FunctionListItem(props: FunctionListItemProps) {
                 <span className="text-black dark:text-white">{')'}</span>
             </span>
 
-            <Button
-                isDisabled={isDisabled}
-                onClick={() => onVisualize(func, params)}
-                color="primary"
-            >
-                Visualize
-            </Button>
+            <Tooltip content="You can change input arguments">
+                <Button
+                    isDisabled={isDisabled}
+                    onClick={() => onVisualize(func, params)}
+                    color="primary"
+                >
+                    Visualize
+                </Button>
+            </Tooltip>
         </div>
     );
 }
@@ -100,10 +102,7 @@ export default function FunctionList(props: FunctionListProps) {
     }
 
     return (
-        <div className="w-full mb-4 divide-dashed divide-y-2 divide-y-reverse ">
-            <p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Set arguments
-            </p>
+        <div className="w-full mb-2 divide-dashed divide-y-2 divide-y-reverse ">
             {functions.map((f, i) => (
                 <FunctionListItem
                     key={i}

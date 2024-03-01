@@ -71,7 +71,7 @@ export function App() {
 
     const LeftCard = (
         <Card className="h-full" radius="none" shadow="none">
-            <CardBody>
+            <CardBody className="p-0 lg:p-3">
                 <PresetsList onSelect={setPreset} presets={Presets} />
                 <FunctionList
                     functions={functions}
@@ -100,7 +100,7 @@ export function App() {
 
     const RightCard = (
         <Card className="h-full grow" radius="none" shadow="none">
-            <CardBody>
+            <CardBody className="p-0 lg:p-3">
                 <iframe
                     title="Recursion visualizer"
                     className="h-full grow auto-color-scheme line-grid-bg"
@@ -118,12 +118,7 @@ export function App() {
                     url: './',
                     logoUrl: logo,
                 }}
-                menu={[
-                    {
-                        title: 'Portfolio',
-                        url: 'https://dmytrobaida.github.io',
-                    },
-                ]}
+                menu={[]}
             />
             <Content>
                 {isMobile ? (
